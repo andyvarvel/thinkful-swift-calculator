@@ -22,33 +22,47 @@ class ViewController: UIViewController {
         println("the \(operationType) button was pressed")
             switch lastOperation {
                 case "+":
+                    //the second number for the operation is in the answer label
                     numberTwo = Double(answerLabel.text.toInt()!)
+                    //calculate the answer
                     answer = numberOne + numberTwo
+                    //log it
                     println("Performing the operation \(numberOne) plus \(numberTwo)")
+                    //put the answer in the screen
                     answerLabel.text = toString(answer)
+                    //reset the number one answer
                     numberOne = answer
-                    lastOperation = operationType
+                    //record the current operation as the new last operation if it is not =
+                    if operationType != "=" {
+                        lastOperation = operationType
+                    }
                 case "-":
                     println("Performing the operation \(numberOne) minus \(numberTwo)")
                     numberTwo = Double(answerLabel.text.toInt()!)
                     answer = numberOne - numberTwo
                     answerLabel.text = toString(answer)
                     numberOne = answer
-                    lastOperation = operationType
-                case "*":
+                    if operationType != "=" {
+                        lastOperation = operationType
+                    }
+                case "x":
                     println("Performing the operation \(numberOne) times \(numberTwo)")
                     numberTwo = Double(answerLabel.text.toInt()!)
                     answer = numberOne * numberTwo
                     answerLabel.text = toString(answer)
                     numberOne = answer
-                    lastOperation = operationType
+                    if operationType != "=" {
+                        lastOperation = operationType
+                    }
                 case "/":
                     println("Performing the operation \(numberOne) divide by \(numberTwo)")
                     numberTwo = Double(answerLabel.text.toInt()!)
                     answer = numberOne / numberTwo
                     answerLabel.text = toString(answer)
                     numberOne = answer
-                    lastOperation = operationType
+                    if operationType != "=" {
+                        lastOperation = operationType
+                    }
                 case "Awaiting Second Number":
                     lastOperation = operationType
                     numberOne = Double(answerLabel.text.toInt()!)

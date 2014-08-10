@@ -12,6 +12,8 @@
 		0C525CA819923F1100EB162A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0C525CA619923F1100EB162A /* Main.storyboard */; };
 		0C525CAA19923F1100EB162A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0C525CA919923F1100EB162A /* Images.xcassets */; };
 		0C525CB619923F1100EB162A /* CalculatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C525CB519923F1100EB162A /* CalculatorTests.swift */; };
+		0CCF024D1997798100C28F07 /* Blurry-blue-background-iphone-5-wallpaper-ilikewallpaper_com.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CCF024A1997798100C28F07 /* Blurry-blue-background-iphone-5-wallpaper-ilikewallpaper_com.png */; };
+		0CCF025119977AEC00C28F07 /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CCF025019977AEC00C28F07 /* background.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,6 +36,8 @@
 		0C525CAF19923F1100EB162A /* CalculatorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CalculatorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0C525CB419923F1100EB162A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0C525CB519923F1100EB162A /* CalculatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorTests.swift; sourceTree = "<group>"; };
+		0CCF024A1997798100C28F07 /* Blurry-blue-background-iphone-5-wallpaper-ilikewallpaper_com.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Blurry-blue-background-iphone-5-wallpaper-ilikewallpaper_com.png"; sourceTree = "<group>"; };
+		0CCF025019977AEC00C28F07 /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,7 +82,9 @@
 				0C525CA219923F1100EB162A /* AppDelegate.swift */,
 				0C525CA419923F1100EB162A /* ViewController.swift */,
 				0C525CA619923F1100EB162A /* Main.storyboard */,
+				0CCF025019977AEC00C28F07 /* background.png */,
 				0C525CA919923F1100EB162A /* Images.xcassets */,
+				0CCF024A1997798100C28F07 /* Blurry-blue-background-iphone-5-wallpaper-ilikewallpaper_com.png */,
 				0C525CA019923F1100EB162A /* Supporting Files */,
 			);
 			path = Calculator;
@@ -189,6 +195,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0CCF024D1997798100C28F07 /* Blurry-blue-background-iphone-5-wallpaper-ilikewallpaper_com.png in Resources */,
+				0CCF025119977AEC00C28F07 /* background.png in Resources */,
 				0C525CA819923F1100EB162A /* Main.storyboard in Resources */,
 				0C525CAA19923F1100EB162A /* Images.xcassets in Resources */,
 			);
@@ -395,6 +403,7 @@
 				0C525CBB19923F1100EB162A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		0C525CBC19923F1100EB162A /* Build configuration list for PBXNativeTarget "CalculatorTests" */ = {
 			isa = XCConfigurationList;
@@ -403,6 +412,7 @@
 				0C525CBE19923F1100EB162A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
