@@ -8,78 +8,121 @@
 
 import UIKit
 
+enum operationType {
+    case Add
+    case Subtract
+    case Multiply
+    case Divide
+    case Equals
+    case None
+}
+
+enum appState {
+    case calculatorHasBeenReset
+    case awaitingSecondInputValue
+    case readyForOperation
+}
+
 class ViewController: UIViewController {
     
+    //set initial variables
     var isNewNumberEntryInAnswerField = true
-    var numberOne:Double = 0
-    var numberTwo:Double = 0
-    var lastOperation:String = "Awaiting Second Number"
+    var previousValue:Double = 0
+    var currentValue:Double = 0
+    var currentOperation:operationType = operationType.None
+    var previousOperation:operationType = operationType.None
+    var calculatorState = appState.calculatorHasBeenReset
     
     @IBAction func operationButtonDidPress(operationButton: UIButton) {
         isNewNumberEntryInAnswerField = true
-        var operationType:String = operationButton.titleLabel.text
-        var answer:Double = 0
-        println("the \(operationType) button was pressed")
-            switch lastOperation {
-                case "+":
-                    //the second number for the operation is in the answer label
-                    numberTwo = Double(answerLabel.text.toInt()!)
-                    //calculate the answer
-                    answer = numberOne + numberTwo
-                    //log it
-                    println("Performing the operation \(numberOne) plus \(numberTwo)")
-                    //put the answer in the screen
-                    answerLabel.text = toString(answer)
-                    //reset the number one answer
-                    numberOne = answer
-                    //record the current operation as the new last operation if it is not =
-                    if operationType != "=" {
-                        lastOperation = operationType
-                    }
-                case "-":
-                    println("Performing the operation \(numberOne) minus \(numberTwo)")
-                    numberTwo = Double(answerLabel.text.toInt()!)
-                    answer = numberOne - numberTwo
-                    answerLabel.text = toString(answer)
-                    numberOne = answer
-                    if operationType != "=" {
-                        lastOperation = operationType
-                    }
-                case "x":
-                    println("Performing the operation \(numberOne) times \(numberTwo)")
-                    numberTwo = Double(answerLabel.text.toInt()!)
-                    answer = numberOne * numberTwo
-                    answerLabel.text = toString(answer)
-                    numberOne = answer
-                    if operationType != "=" {
-                        lastOperation = operationType
-                    }
-                case "/":
-                    println("Performing the operation \(numberOne) divide by \(numberTwo)")
-                    numberTwo = Double(answerLabel.text.toInt()!)
-                    answer = numberOne / numberTwo
-                    answerLabel.text = toString(answer)
-                    numberOne = answer
-                    if operationType != "=" {
-                        lastOperation = operationType
-                    }
-                case "Awaiting Second Number":
-                    lastOperation = operationType
-                    numberOne = Double(answerLabel.text.toInt()!)
-                    println("awaiting second number")
-                default:
-                    println("there was an error")
+        
+        //get the string value of the operation button that was pressed
+        var valueOfOperationButtonPressed:String = operationButton.titleLabel.text
+        
+        //convert the string to the type of operation that was pressed
+        var currentOperation = convertOperationString(valueOfOperationButtonPressed)
+        
+        //make the current value the value that is on the screen
+        var currentValue:Double = (answerLabel.text as NSString).doubleValue
+        
+        checkIfOperationShouldBePerformed(currentValue, currentOperation: currentOperation, calculatorState: calculatorState)
+    }
+    
+    func checkIfOperationShouldBePerformed (currentValue:Double, currentOperation:operationType, calculatorState:appState) {
+        
+        if (currentOperation == operationType.Equals) {
+            
+            //reset the calculator state
+            self.calculatorState = appState.awaitingSecondInputValue
+            printAnswer(performCalculatorOperation(previousValue, currentValue: currentValue, operation: previousOperation))
+        } else {
+            switch calculatorState {
+            case appState.readyForOperation:
+                var answer = performCalculatorOperation(previousValue, currentValue: currentValue, operation: previousOperation)
+                println("and the answer is \(answer)")
+                previousValue = answer
+                previousOperation = currentOperation
+                printAnswer(answer)
+            default:
+                previousValue = currentValue
+                previousOperation = currentOperation
+                self.calculatorState = appState.readyForOperation
             }
         }
-    
+        
+        
+        
+    }
     
 
+    
+    func printAnswer(answer:Double) {
+        answerLabel.text = toString(answer)
+    }
+    
+    func performCalculatorOperation(previousValue:Double, currentValue:Double, operation:operationType)  -> Double {
+        //do calculation here
+        
+        switch operation {
+            case operationType.Add:
+                return previousValue + currentValue
+            case operationType.Multiply:
+                return previousValue * currentValue
+            case operationType.Subtract:
+                return previousValue - currentValue
+            case operationType.Divide:
+                return previousValue / currentValue
+            default:
+                return 0
+        }
+       
+    }
+    
+    
+    //this function converts the string to an operation Type
+    func convertOperationString(operationValue:String) -> operationType {
+        
+        //do something
+        switch operationValue {
+            case "+":
+                return operationType.Add
+            case "-":
+                return operationType.Subtract
+            case "x":
+                return operationType.Multiply
+            case "/":
+                return operationType.Divide
+            case "=":
+                return operationType.Equals
+            default:
+                return operationType.None
+        }
+    }
+    
+    //MARK: IB Outlets
+
     @IBAction func clearButton(sender: AnyObject) {
-        isNewNumberEntryInAnswerField = true
-        answerLabel.text = "0"
-        var numberOne:Double = 0
-        var numberTwo:Double = 0
-        var lastOperation:String = "Awaiting Second Number"
+       //do something
     }
     
     @IBOutlet weak var answerLabel: UILabel!
@@ -95,7 +138,6 @@ class ViewController: UIViewController {
         }
     }
    
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
