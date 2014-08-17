@@ -19,7 +19,6 @@ enum operationType {
 
 enum appState {
     case calculatorHasBeenReset
-    case awaitingSecondInputValue
     case readyForOperation
 }
 
@@ -35,52 +34,41 @@ class ViewController: UIViewController {
     
     @IBAction func operationButtonDidPress(operationButton: UIButton) {
         isNewNumberEntryInAnswerField = true
-        
-        //get the string value of the operation button that was pressed
         var valueOfOperationButtonPressed:String = operationButton.titleLabel.text
-        
-        //convert the string to the type of operation that was pressed
         var currentOperation = convertOperationString(valueOfOperationButtonPressed)
-        
-        //make the current value the value that is on the screen
         var currentValue:Double = (answerLabel.text as NSString).doubleValue
-        
-        checkIfOperationShouldBePerformed(currentValue, currentOperation: currentOperation, calculatorState: calculatorState)
+        if (shouldOperationShouldBePerformed(currentValue, currentOperation: currentOperation, calculatorState: calculatorState) == true) {
+            var answer = doOperation(previousValue, currentValue: currentValue, operation: previousOperation)
+            previousValue = answer
+            printAnswer(answer)
+        }
     }
     
-    func checkIfOperationShouldBePerformed (currentValue:Double, currentOperation:operationType, calculatorState:appState) {
+    func shouldOperationShouldBePerformed (currentValue:Double, currentOperation:operationType, calculatorState:appState) -> Bool {
         
-        if (currentOperation == operationType.Equals) {
-            
-            //reset the calculator state
-            self.calculatorState = appState.awaitingSecondInputValue
-            printAnswer(performCalculatorOperation(previousValue, currentValue: currentValue, operation: previousOperation))
-        } else {
             switch calculatorState {
             case appState.readyForOperation:
-                var answer = performCalculatorOperation(previousValue, currentValue: currentValue, operation: previousOperation)
-                println("and the answer is \(answer)")
-                previousValue = answer
-                previousOperation = currentOperation
-                printAnswer(answer)
-            default:
+                if (currentOperation == operationType.Equals) {
+                    println("the current value is \(currentValue) and the previous is \(previousValue)")
+                    self.calculatorState = appState.calculatorHasBeenReset
+                } else {
+                    previousOperation = currentOperation
+                }
+                return true
+            case appState.calculatorHasBeenReset:
                 previousValue = currentValue
                 previousOperation = currentOperation
                 self.calculatorState = appState.readyForOperation
+                return false
             }
-        }
-        
-        
-        
     }
     
-
     
     func printAnswer(answer:Double) {
         answerLabel.text = toString(answer)
     }
     
-    func performCalculatorOperation(previousValue:Double, currentValue:Double, operation:operationType)  -> Double {
+    func doOperation(previousValue:Double, currentValue:Double, operation:operationType)  -> Double {
         //do calculation here
         
         switch operation {
@@ -102,7 +90,6 @@ class ViewController: UIViewController {
     //this function converts the string to an operation Type
     func convertOperationString(operationValue:String) -> operationType {
         
-        //do something
         switch operationValue {
             case "+":
                 return operationType.Add
@@ -119,10 +106,14 @@ class ViewController: UIViewController {
         }
     }
     
-    //MARK: IB Outlets
-
     @IBAction func clearButton(sender: AnyObject) {
-       //do something
+        var isNewNumberEntryInAnswerField = true
+        var previousValue:Double = 0
+        var currentValue:Double = 0
+        var currentOperation:operationType = operationType.None
+        var previousOperation:operationType = operationType.None
+        var calculatorState = appState.calculatorHasBeenReset
+        printAnswer(0)
     }
     
     @IBOutlet weak var answerLabel: UILabel!
