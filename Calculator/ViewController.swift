@@ -8,7 +8,7 @@
 
 import UIKit
 
-enum operationType {
+enum OperationType {
     case Add
     case Subtract
     case Multiply
@@ -17,9 +17,9 @@ enum operationType {
     case None
 }
 
-enum appState {
-    case calculatorHasBeenReset
-    case readyForOperation
+enum AppState {
+    case CalculatorHasBeenReset
+    case ReadyForOperation
 }
 
 class ViewController: UIViewController {
@@ -28,9 +28,9 @@ class ViewController: UIViewController {
     var isNewNumberEntryInAnswerField = true
     var previousValue:Double = 0
     var currentValue:Double = 0
-    var currentOperation:operationType = operationType.None
-    var previousOperation:operationType = operationType.None
-    var calculatorState = appState.calculatorHasBeenReset
+    var currentOperation:OperationType = .None
+    var previousOperation:OperationType = .None
+    var calculatorState:AppState = .CalculatorHasBeenReset
     
     @IBAction func operationButtonDidPress(operationButton: UIButton) {
         isNewNumberEntryInAnswerField = true
@@ -45,19 +45,18 @@ class ViewController: UIViewController {
         }
     }
     
-    func shouldOperationShouldBePerformed (currentValue:Double, currentOperation:operationType, calculatorState:appState) -> Bool {
-        
+    func shouldOperationShouldBePerformed (currentValue:Double, currentOperation:OperationType, calculatorState:AppState) -> Bool {
         switch calculatorState {
-        case appState.readyForOperation:
-            if (currentOperation == operationType.Equals) {
+        case .ReadyForOperation:
+            if (currentOperation == OperationType.Equals) {
                 println("the current value is \(currentValue) and the previous is \(previousValue)")
-                self.calculatorState = appState.calculatorHasBeenReset
+                self.calculatorState = AppState.CalculatorHasBeenReset
             }
             return true
-        case appState.calculatorHasBeenReset:
+        case AppState.CalculatorHasBeenReset:
             previousValue = currentValue
             previousOperation = currentOperation
-            self.calculatorState = appState.readyForOperation
+            self.calculatorState = AppState.ReadyForOperation
             return false
         }
     }
@@ -67,17 +66,17 @@ class ViewController: UIViewController {
         answerLabel.text = toString(answer)
     }
     
-    func doOperation(previousValue:Double, currentValue:Double, operation:operationType)  -> Double {
+    func doOperation(previousValue:Double, currentValue:Double, operation:OperationType)  -> Double {
         //do calculation here
         
         switch operation {
-        case operationType.Add:
+        case .Add:
             return previousValue + currentValue
-        case operationType.Multiply:
+        case .Multiply:
             return previousValue * currentValue
-        case operationType.Subtract:
+        case .Subtract:
             return previousValue - currentValue
-        case operationType.Divide:
+        case .Divide:
             return previousValue / currentValue
         default:
             return 0
@@ -87,21 +86,21 @@ class ViewController: UIViewController {
     
     
     //this function converts the string to an operation Type
-    func convertOperationString(operationValue:String) -> operationType {
+    func convertOperationString(operationValue:String) -> OperationType {
         
         switch operationValue {
         case "+":
-            return operationType.Add
+            return .Add
         case "-":
-            return operationType.Subtract
+            return .Subtract
         case "x":
-            return operationType.Multiply
+            return .Multiply
         case "/":
-            return operationType.Divide
+            return .Divide
         case "=":
-            return operationType.Equals
+            return .Equals
         default:
-            return operationType.None
+            return .None
         }
     }
     
@@ -109,9 +108,9 @@ class ViewController: UIViewController {
         var isNewNumberEntryInAnswerField = true
         var previousValue:Double = 0
         var currentValue:Double = 0
-        var currentOperation:operationType = operationType.None
-        var previousOperation:operationType = operationType.None
-        var calculatorState = appState.calculatorHasBeenReset
+        var currentOperation:OperationType = .None
+        var previousOperation:OperationType = .None
+        var calculatorState = AppState.CalculatorHasBeenReset
         printAnswer(0)
     }
     
