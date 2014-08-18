@@ -47,19 +47,19 @@ class ViewController: UIViewController {
     
     func shouldOperationShouldBePerformed (currentValue:Double, currentOperation:operationType, calculatorState:appState) -> Bool {
         
-            switch calculatorState {
-            case appState.readyForOperation:
-                if (currentOperation == operationType.Equals) {
-                    println("the current value is \(currentValue) and the previous is \(previousValue)")
-                    self.calculatorState = appState.calculatorHasBeenReset
-                }
-                return true
-            case appState.calculatorHasBeenReset:
-                previousValue = currentValue
-                previousOperation = currentOperation
-                self.calculatorState = appState.readyForOperation
-                return false
+        switch calculatorState {
+        case appState.readyForOperation:
+            if (currentOperation == operationType.Equals) {
+                println("the current value is \(currentValue) and the previous is \(previousValue)")
+                self.calculatorState = appState.calculatorHasBeenReset
             }
+            return true
+        case appState.calculatorHasBeenReset:
+            previousValue = currentValue
+            previousOperation = currentOperation
+            self.calculatorState = appState.readyForOperation
+            return false
+        }
     }
     
     
@@ -71,18 +71,18 @@ class ViewController: UIViewController {
         //do calculation here
         
         switch operation {
-            case operationType.Add:
-                return previousValue + currentValue
-            case operationType.Multiply:
-                return previousValue * currentValue
-            case operationType.Subtract:
-                return previousValue - currentValue
-            case operationType.Divide:
-                return previousValue / currentValue
-            default:
-                return 0
+        case operationType.Add:
+            return previousValue + currentValue
+        case operationType.Multiply:
+            return previousValue * currentValue
+        case operationType.Subtract:
+            return previousValue - currentValue
+        case operationType.Divide:
+            return previousValue / currentValue
+        default:
+            return 0
         }
-       
+        
     }
     
     
@@ -90,18 +90,18 @@ class ViewController: UIViewController {
     func convertOperationString(operationValue:String) -> operationType {
         
         switch operationValue {
-            case "+":
-                return operationType.Add
-            case "-":
-                return operationType.Subtract
-            case "x":
-                return operationType.Multiply
-            case "/":
-                return operationType.Divide
-            case "=":
-                return operationType.Equals
-            default:
-                return operationType.None
+        case "+":
+            return operationType.Add
+        case "-":
+            return operationType.Subtract
+        case "x":
+            return operationType.Multiply
+        case "/":
+            return operationType.Divide
+        case "=":
+            return operationType.Equals
+        default:
+            return operationType.None
         }
     }
     
@@ -127,18 +127,18 @@ class ViewController: UIViewController {
             }
         }
     }
-   
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
-
+    
+    
 }
 

@@ -1,0 +1,290 @@
+//
+//  ViewController.swift
+//  Calculator
+//
+//  Created by Andy Varvel on 6/08/2014.
+//  Copyright (c) 2014 Andy Varvel. All rights reserved.
+//
+
+import UIKit
+
+<<<<<<< HEAD
+enum operationType {
+    case Add
+    case Subtract
+    case Multiply
+    case Divide
+    case Equals
+    case None
+}
+
+enum appState {
+    case calculatorHasBeenReset
+    case readyForOperation
+}
+
+=======
+enum OperatorType {
+    case Addition
+    case Subtraction
+    case Division
+    case Multiplication
+    case None
+    func name() -> String {
+        switch self {
+        case .Addition:
+            return "Addition"
+        case .Subtraction:
+            return "Subtraction"
+        case .Division:
+            return "Division"
+        case .Multiplication:
+            return "Multiplication"
+        case .None:
+            return "None"
+        }
+        
+    }
+    static func fromString(input:String) -> OperatorType {
+        switch input {
+            case "+":
+                return OperatorType.Addition
+            case "-":
+                return OperatorType.Subtraction
+            case "x":
+                return OperatorType.Multiplication
+            case "/":
+                return OperatorType.Division
+            default:
+                return OperatorType.None
+        }
+    }
+}
+
+enum InterfaceState {
+    case AwaitingFirstValue // empty
+    case AwaitingSecondValue // you've hit 5+
+    case PendingCalc // this would be when you hit 5*5+ (you have a pending multiplcation)
+    func name() -> String {
+        switch self {
+        case .AwaitingFirstValue:
+            return "AwaitingFirstValue"
+        case .AwaitingSecondValue:
+            return "AwaitingSecondValue"
+        case .PendingCalc:
+            return "PendingCalc"
+        }
+    }
+}
+
+
+>>>>>>> e049bf4d61115e5fd4b4932fe8d0f840eb7df631
+class ViewController: UIViewController {
+    
+    //set initial variables
+    var isNewNumberEntryInAnswerField = true
+<<<<<<< HEAD
+    var previousValue:Double = 0
+    var currentValue:Double = 0
+    var currentOperation:operationType = operationType.None
+    var previousOperation:operationType = operationType.None
+    var calculatorState = appState.calculatorHasBeenReset
+=======
+>>>>>>> e049bf4d61115e5fd4b4932fe8d0f840eb7df631
+    
+    var currentValue:Double? = nil {
+        didSet {
+            if (self.currentValue == nil) {
+                answerLabel.text = "0"
+            } else {
+                answerLabel.text = toString(self.currentValue!)
+            }
+        }
+    }
+
+    var lastOperation:OperatorType?
+    var calculatorState:InterfaceState = .AwaitingFirstValue
+    var pendingOperation:OperatorType?
+    
+    var pendingValueInput:Double?
+    
+    @IBOutlet weak var answerLabel: UILabel!
+    
+    // MARK: IBAction Methods
+    @IBAction func operationButtonDidPress(operationButton: UIButton) {
+        isNewNumberEntryInAnswerField = true
+<<<<<<< HEAD
+        var valueOfOperationButtonPressed:String = operationButton.titleLabel.text
+        var currentOperation = convertOperationString(valueOfOperationButtonPressed)
+        var currentValue:Double = (answerLabel.text as NSString).doubleValue
+        if (shouldOperationShouldBePerformed(currentValue, currentOperation: currentOperation, calculatorState: calculatorState) == true) {
+            var answer = doOperation(previousValue, currentValue: currentValue, operation: previousOperation)
+            previousValue = answer
+            previousOperation = currentOperation
+            printAnswer(answer)
+        }
+    }
+    
+    func shouldOperationShouldBePerformed (currentValue:Double, currentOperation:operationType, calculatorState:appState) -> Bool {
+        
+            switch calculatorState {
+            case appState.readyForOperation:
+                if (currentOperation == operationType.Equals) {
+                    println("the current value is \(currentValue) and the previous is \(previousValue)")
+                    self.calculatorState = appState.calculatorHasBeenReset
+                }
+                return true
+            case appState.calculatorHasBeenReset:
+                previousValue = currentValue
+                previousOperation = currentOperation
+                self.calculatorState = appState.readyForOperation
+                return false
+            }
+    }
+    
+    
+    func printAnswer(answer:Double) {
+        answerLabel.text = toString(answer)
+    }
+    
+    func doOperation(previousValue:Double, currentValue:Double, operation:operationType)  -> Double {
+        //do calculation here
+        
+        switch operation {
+            case operationType.Add:
+                return previousValue + currentValue
+            case operationType.Multiply:
+                return previousValue * currentValue
+            case operationType.Subtract:
+                return previousValue - currentValue
+            case operationType.Divide:
+                return previousValue / currentValue
+            default:
+                return 0
+        }
+       
+=======
+        var operationType:String = operationButton.titleLabel.text
+        var answer:Double = 0
+        
+        if (self.calculatorState == .AwaitingFirstValue) {
+            // next step is set the currentValue and perform no operation
+            currentValue = pendingValueInput
+            self.calculatorState = .AwaitingSecondValue
+            pendingValueInput = nil
+        }
+        
+        self.performPendingOpIfExists()
+        
+        if (operationType != "=") {
+            self.pendingOperation = OperatorType.fromString(operationType)
+        }
+>>>>>>> e049bf4d61115e5fd4b4932fe8d0f840eb7df631
+    }
+    
+    func performPendingOpIfExists() {
+        if (calculatorState == .AwaitingSecondValue && self.pendingOperation != OperatorType.None && self.pendingOperation != nil) {
+            println("pendingValueInput: \(pendingValueInput)")
+            self.currentValue = self.doCalculation(pendingValueInput!, operation: self.pendingOperation!)
+            self.pendingOperation = OperatorType.None
+        }
+    }
+ 
+    
+<<<<<<< HEAD
+    //this function converts the string to an operation Type
+    func convertOperationString(operationValue:String) -> operationType {
+        
+        switch operationValue {
+            case "+":
+                return operationType.Add
+            case "-":
+                return operationType.Subtract
+            case "x":
+                return operationType.Multiply
+            case "/":
+                return operationType.Divide
+            case "=":
+                return operationType.Equals
+            default:
+                return operationType.None
+        }
+    }
+    
+    @IBAction func clearButton(sender: AnyObject) {
+        var isNewNumberEntryInAnswerField = true
+        var previousValue:Double = 0
+        var currentValue:Double = 0
+        var currentOperation:operationType = operationType.None
+        var previousOperation:operationType = operationType.None
+        var calculatorState = appState.calculatorHasBeenReset
+        printAnswer(0)
+=======
+    @IBAction func clearButton(sender: AnyObject) {
+        isNewNumberEntryInAnswerField = true
+        currentValue = nil
+        lastOperation = nil
+        self.calculatorState = .AwaitingFirstValue
+>>>>>>> e049bf4d61115e5fd4b4932fe8d0f840eb7df631
+    }
+    
+    @IBAction func numberTapped(myButton: UIButton) {
+        if isNewNumberEntryInAnswerField == true {
+            answerLabel.text = myButton.titleLabel.text
+            isNewNumberEntryInAnswerField = false
+        } else {
+            if isNewNumberEntryInAnswerField == false {
+                answerLabel.text = answerLabel.text + myButton.titleLabel.text
+            }
+        }
+
+        pendingValueInput = (answerLabel.text as NSString).doubleValue
+    }
+    
+<<<<<<< HEAD
+=======
+
+    
+    // MARK: Custom Methods
+    func doCalculation(second:Double?, operation:OperatorType) -> Double {
+
+        // NOTE: this what's often called a 'guard' clause
+        if (second == nil) {
+            return currentValue!
+        }
+        
+        var value = currentValue!
+        
+        switch operation {
+            case .Addition:
+                value = currentValue! + second!
+            case .Division:
+                value = currentValue! / second!
+            case .Multiplication:
+                value = currentValue! * second!
+            case .Subtraction:
+                value = currentValue! - second!
+            default:
+                println("do nothing")
+        }
+        
+        return value
+    }
+    
+    
+    // MARK: View Lifecycle Methods
+    
+>>>>>>> e049bf4d61115e5fd4b4932fe8d0f840eb7df631
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // Do any additional setup after loading the view, typically from a nib.
+    }
+
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+
+
+}
+
