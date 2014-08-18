@@ -40,6 +40,7 @@ class ViewController: UIViewController {
         if (shouldOperationShouldBePerformed(currentValue, currentOperation: currentOperation, calculatorState: calculatorState) == true) {
             var answer = doOperation(previousValue, currentValue: currentValue, operation: previousOperation)
             previousValue = answer
+            previousOperation = currentOperation
             printAnswer(answer)
         }
     }
@@ -51,8 +52,6 @@ class ViewController: UIViewController {
                 if (currentOperation == operationType.Equals) {
                     println("the current value is \(currentValue) and the previous is \(previousValue)")
                     self.calculatorState = appState.calculatorHasBeenReset
-                } else {
-                    previousOperation = currentOperation
                 }
                 return true
             case appState.calculatorHasBeenReset:
